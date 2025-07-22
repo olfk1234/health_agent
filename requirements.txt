@@ -19,7 +19,6 @@ charset-normalizer==3.4.2
 chevron==0.14.0
 click==8.2.1
 colorama==0.4.6
-copilotkit==0.1.55
 dataclasses-json==0.6.7
 Deprecated==1.2.18
 distro==1.9.0
