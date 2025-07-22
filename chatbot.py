@@ -1,5 +1,6 @@
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.constants import START
 from langgraph.graph import StateGraph, END, MessagesState
@@ -9,6 +10,7 @@ from dotenv import load_dotenv
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.types import interrupt
 from pint import UnitRegistry, Quantity
+import chainlit as cl
 load_dotenv()
 if not os.environ.get("OPENAI_API_KEY"):
     os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
@@ -226,6 +228,23 @@ graph.add_edge("tools", "model")
 
 builtGraph = graph.compile(checkpointer=memory)
 
+@cl.on_message
+async def on_message(msg: cl.Message):
+    config = {"configurable": {"thread_id": '1'}}
+    cb = cl.LangchainCallbackHandler()
+    final_answer = cl.Message(content="")
+
+    for msg, metadata in builtGraph.stream({"messages": [HumanMessage(content=msg.content)]}, stream_mode="messages",
+                                   config=RunnableConfig(callbacks=[cb], **config)):
+        if (
+                msg.content
+                and not isinstance(msg, HumanMessage) and not isinstance(msg, SystemMessage)
+                and metadata["langgraph_node"] == "model"
+        ):
+            print(f"Streaming token: {msg.content}")
+            await final_answer.stream_token(msg.content)
+
+    await final_answer.send()
 
 
 
