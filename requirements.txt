@@ -75,8 +75,8 @@ urllib3==2.5.0
 xxhash==3.5.0
 zstandard==0.23.0
 copilotkit>=0.1.54
-fastapi>=0.115.14,
-langchain>=0.3.26,
-langchain-openai>=0.3.27,
-langgraph>=0.4.10,
+fastapi>=0.115.14
+langchain>=0.3.26
+langchain-openai>=0.3.27
+langgraph>=0.4.10
 uvicorn>=0.35.0
