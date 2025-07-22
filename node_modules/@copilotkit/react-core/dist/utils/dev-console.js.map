@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/utils/dev-console.ts"],"sourcesContent":["export function shouldShowDevConsole(showDevConsole: boolean): boolean {\n  return showDevConsole;\n}\n"],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,SAAS,qBAAqB,gBAAkC;AACrE,SAAO;AACT;","names":[]}
